@@ -8,6 +8,7 @@ import styles from './styles';
 import iconTelefone from './img/phone.png';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
+
 import {
   createTable,
   obtemTodosContatos,
