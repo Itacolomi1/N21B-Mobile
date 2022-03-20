@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   Alert, Text, TextInput, TouchableOpacity,
@@ -6,7 +7,7 @@ import {
 import { useState, useEffect, useRef } from 'react';
 import styles from './styles';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
 
 import {
   createTable,
@@ -15,7 +16,9 @@ import {
   alteraAtividade,
   excluiAtividade,
   excluiTodasAtividades
-} from '../../services/atividade.service'
+} from '../../services/atividade.service';
+
+import {obtemTodosTipoAtividade} from '../../services/tipo-atividade.service'
 
 
 export default function Atividade({ navigation }) {
@@ -32,6 +35,18 @@ export default function Atividade({ navigation }) {
   const [atividades, setAtividades] = useState([]);
   const statusAtividadeData = ["pendente", "concluído"]
   const dropdownRef = useRef({});
+  const dropdownTipoAtividadeRef = useRef({});
+  const [listaTipoAtividades,setListaTipoAtividades] = useState([]);
+
+  // React.useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     console.log('fazer o método')
+  //     carregaTipoAtividade();
+  //   });
+
+  //   // Return the function to unsubscribe from the event so it gets removed on unmount
+  //   return unsubscribe;
+  // }, [navigation]);
 
   async function processamentoUseEffect() {
     if (!criarTabela) {
@@ -48,6 +63,7 @@ export default function Atividade({ navigation }) {
   useEffect(
     () => {
       console.log('executando useffect');
+      carregaTipoAtividade()
       processamentoUseEffect(); //necessário método pois aqui não pode utilizar await...
     }, [recarregaTela]);
 
@@ -162,6 +178,7 @@ export default function Atividade({ navigation }) {
     setHoraEntrega("");
     setStatusAtividade("");
     dropdownRef.current.reset();
+    dropdownTipoAtividadeRef.current.reset();
     setId(undefined);
     Keyboard.dismiss();
   }
@@ -171,6 +188,18 @@ export default function Atividade({ navigation }) {
       setRecarregaTela(true);
     }
     catch (e) {
+      Alert.alert(e.toString());
+    }
+  }
+
+  async function carregaTipoAtividade() {
+    try {
+      console.log('tentar pegar os tipos')
+      let contatos = await obtemTodosTipoAtividade();
+      console.log('tiposAtividades');
+      console.log(contatos);
+      setListaTipoAtividades(contatos);
+    } catch (e) {
       Alert.alert(e.toString());
     }
   }
@@ -250,10 +279,29 @@ export default function Atividade({ navigation }) {
         </View>
         <View style={styles.areaNome}>
           <Text>Tipo Atividade</Text>
-          <TextInput
+          {/* <TextInput
             style={styles.caixaTexto}
             onChangeText={(texto) => setTipoAtividade(texto)}
-            value={tipoAtividade} />
+            value={tipoAtividade} /> */}
+          <SelectDropdown
+            data={listaTipoAtividades}
+            ref={dropdownTipoAtividadeRef}
+            onSelect={(selectedItem, index) => {
+              setTipoAtividade(selectedItem.id);
+              console.log(selectedItem, index);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              // text represented after item is selected
+              // if data array is an array of objects then return selectedItem.property to render after item is selected
+              //setStatusAtividade(selectedItem);
+              return selectedItem.descricao
+            }}
+            rowTextForSelection={(item, index) => {
+              // text represented for each item in dropdown
+              // if data array is an array of objects then return item.property to represent item in dropdown
+              return item.descricao
+            }}
+          />
         </View>
         <View style={styles.areaNome}>
           <Text>Local Atividade</Text>
