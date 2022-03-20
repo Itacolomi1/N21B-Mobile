@@ -4,11 +4,13 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import Home from './Telas/Home';
 import TipoAtividade from './Telas/Tipo_Atividade'
+import Atividade from './Telas/Atividade'
 
 export default function App() {
 
   const Routes = createAppContainer(
     createSwitchNavigator({
+      Atividade,
       TipoAtividade,
       Home
     })
