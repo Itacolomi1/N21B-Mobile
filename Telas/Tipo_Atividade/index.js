@@ -37,6 +37,16 @@ export default function TipoAtividade({ navigator }) {
         }
     }
 
+    function validaCampos() {
+
+      if (descricao == undefined || descricao.length == 0) {
+        Alert.alert('Informe a descricao.');
+        return false;
+      }      
+  
+      return true;
+    }
+
     useEffect(
         () => {
             console.log('executando useffect');
@@ -47,7 +57,11 @@ export default function TipoAtividade({ navigator }) {
         return Date.now().toString(36) + Math.random().toString(36).slice(0, 2);
     }
 
-    async function salvaDados() {        
+    async function salvaDados() {    
+      
+        if(!validaCampos()){
+          return;
+        }
         let novoRegistro = false;
         let identificador = id;
     

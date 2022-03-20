@@ -10,8 +10,8 @@ export default function App() {
 
   const Routes = createAppContainer(
     createSwitchNavigator({
-      Atividade,
       TipoAtividade,
+      Atividade,
       Home
     })
   );
