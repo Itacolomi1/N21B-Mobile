@@ -18,7 +18,7 @@ import {
   excluiTodasAtividades
 } from '../../services/atividade.service';
 
-import {obtemTodosTipoAtividade} from '../../services/tipo-atividade.service'
+import { obtemTodosTipoAtividade } from '../../services/tipo-atividade.service'
 
 
 export default function Atividade({ navigation }) {
@@ -36,7 +36,7 @@ export default function Atividade({ navigation }) {
   const statusAtividadeData = ["pendente", "concluído"]
   const dropdownRef = useRef({});
   const dropdownTipoAtividadeRef = useRef({});
-  const [listaTipoAtividades,setListaTipoAtividades] = useState([]);
+  const [listaTipoAtividades, setListaTipoAtividades] = useState([]);
 
   // React.useEffect(() => {
   //   const unsubscribe = navigation.addListener('focus', () => {
@@ -89,7 +89,7 @@ export default function Atividade({ navigation }) {
     if (dataEntrega == undefined || dataEntrega.length == 0) {
       Alert.alert('Informe a descricao.');
       return false;
-    }  
+    }
 
     if (horaEntrega == undefined || horaEntrega.length == 0) {
       Alert.alert('Informe a Hora Entrega.');
@@ -106,7 +106,7 @@ export default function Atividade({ navigation }) {
 
   async function salvaDados() {
 
-    if(!validaCampos()){
+    if (!validaCampos()) {
       return;
     }
 
@@ -221,6 +221,10 @@ export default function Atividade({ navigation }) {
       ]));
   }
 
+  function VoltaTela() {
+    navigation.navigate("Home");
+  }
+
   function removerElemento(identificador) {
     Alert.alert('Atenção', 'Confirma a remoção do contato?',
       [
@@ -267,6 +271,13 @@ export default function Atividade({ navigation }) {
 
   return (
     <View style={styles.container}>
+
+      <View style={styles.botaoVoltar}>
+        <TouchableOpacity onPress={() => VoltaTela()}>
+          <Ionicons name="arrow-back-outline" size={30} color="#191970" />
+        </TouchableOpacity>
+
+      </View>
       <Text style={styles.tituloAgenda}>Atividade</Text>
 
       <View style={styles.areaDados}>
@@ -353,15 +364,15 @@ export default function Atividade({ navigation }) {
       </View>
 
       <View style={styles.areaBotoes}>
-        <TouchableOpacity style={styles.botao} onPress={() => salvaDados()}>
+        <TouchableOpacity style={styles.botaoAcao} onPress={() => salvaDados()}>
           <Text style={styles.textoBotao}>Salvar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={() => limpaCampos()}>
+        <TouchableOpacity style={styles.botaoAcao} onPress={() => limpaCampos()}>
           <Text style={styles.textoBotao}>Cancelar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={() => apagarTudo()}>
+        <TouchableOpacity style={styles.botaoAcao} onPress={() => apagarTudo()}>
           <Text style={styles.textoBotao}>Apagar Tudo</Text>
         </TouchableOpacity>
       </View>
@@ -374,12 +385,12 @@ export default function Atividade({ navigation }) {
               <Text style={styles.listaTelefone}>{atividade.statusAtividade}</Text>
 
               <View style={styles.dadosBotoesAcao}>
-                <TouchableOpacity onPress={() => removerElemento(atividade.id)}>
-                  <Ionicons name="md-remove-circle" size={32} color="red" />
+                <TouchableOpacity onPress={() => removerElemento(tipoAtividade.id)}>
+                  <Ionicons name="trash-outline" size={25} color="#040d59" />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => editar(atividade.id)}>
-                  <Entypo name="edit" size={32} color="black" />
+                  <Entypo name="edit" size={32} color="#191970" />
                 </TouchableOpacity>
 
               </View>
@@ -388,6 +399,8 @@ export default function Atividade({ navigation }) {
           ))
         }
       </ScrollView>
+
+
 
       <StatusBar style="auto" />
     </View>

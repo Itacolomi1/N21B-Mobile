@@ -13,12 +13,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: '#FFF',
-    marginTop: 20,
+    marginTop: 5,
 },
+titulo: { 
+    fontSize: 25,
+    color: 'black',
+    width: '100%',
+    textAlign: 'center',
+    marginTop: 10,
+},
+
 atividade: {
-    backgroundColor: '#ed8f1c',
+    backgroundColor: '#87CEEB',
+    
     flexDirection: 'row',
-    height: 80,
+    height: 50,
     alignItems: 'center',
     margin: 10,
     borderRadius: 5,
@@ -31,16 +40,27 @@ atividade: {
     shadowRadius: 2.22,
     elevation: 3,
 },
+dadosBotoesAcao: {
+    width: '10%',
+},
+listaNome: {
+    width: '38%',
+    fontSize: 15,
+    paddingRight: 10,
+    marginLeft:20,
+},
 areaBotoes: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    marginTop: 30,
+    marginTop: 3,
 },
 textoBotao: {
     color: '#FFFF',
 },
-
+textoBotaoSalvar: {
+    color:  '#191970',
+},
 botao: {
     width: '30%',
     height: 50,
@@ -52,6 +72,38 @@ botao: {
     backgroundColor: '#040d59',
     margin:20,
     textAlign:'center',
+},
+botaoSalvar: {
+    width: '30%',
+    height: 30,
+    borderColor: "#000",
+    borderWidth: 2,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#48D1CC',
+    margin:10,
+    textAlign:'center',
+    
+},
+botaoAcao: {
+    width: '30%',
+    height: 40,
+    borderColor: "#191970",
+    borderWidth: 2,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#4682B4',
+    margin:0,
+    textAlign:'center',
+},
+
+areaEdicao: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '80%',
+    marginTop: 5,
 },
 
 });

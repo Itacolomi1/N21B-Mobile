@@ -1,29 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import {
   Alert, Text, TextInput, TouchableOpacity,
-  View, Keyboard, ScrollView, Image
+  View,SafeAreaView, Keyboard, ScrollView, Image
 } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './styles';
 import { Ionicons, Entypo } from '@expo/vector-icons';
+import SelectDropdown from 'react-native-select-dropdown';
 
 
 import {
   createTable,
   obtemTodasAtividades,
-  adicionaAtividade,
-  alteraAtividade,
-  excluiAtividade,
-  excluiTodasAtividades
+  alteraAtividade,  
 } from '../../services/atividade.service'
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
 
-  const [id, setId] = useState();  
+  const [id, setId] = useState();
+  const [descricao, setDescricao] = useState();
+  const [tipoAtividade, setTipoAtividade] = useState();
+  const [localAtividade, setLocalAtividade] = useState();
+  const [dataEntrega, setDataEntrega] = useState();
+  const [horaEntrega, setHoraEntrega] = useState();
+  const [statusAtividade, setStatusAtividade] = useState();
+
+
   const [atividades, setAtividades] = useState([]);
   const [recarregaTela, setRecarregaTela] = useState(true);
   const [criarTabela, setCriarTabela] = useState(false);
+  const statusAtividadeData = ["pendente", "concluído"];
+  const dropdownRef = useRef({});
+  // const [shouldShow, setShouldShow] = useState(true);
 
+  // const [edit, setEdit] = useState(false);
 
   async function processamentoUseEffect() {
     if (!criarTabela) {
@@ -33,23 +43,27 @@ export default function Home({navigation}) {
     }
     if (recarregaTela) {
       console.log("Recarregando dados...");
-      await carregaDados();
+      await carregaDadosPendentes();
     }
   }
 
-  function DirecionaTela1(){
+  function DirecionaTela1() {
     navigation.navigate("TipoAtividade");
   }
-  function DirecionaTela2(){
+  function DirecionaTela2() {
     navigation.navigate("Atividade");
+  }
+
+  function Filtro(condicao) {
+    setAtividades(atividades.filter(x => x.statusAtividade == condicao))
   }
 
   useEffect(
     () => {
       console.log('executando useffect');
-      processamentoUseEffect(); //necessário método pois aqui não pode utilizar await...
+      processamentoUseEffect(); 
     }, [recarregaTela]);
- 
+
   async function carregaDados() {
     try {
       let lista = await obtemTodasAtividades();
@@ -60,32 +74,132 @@ export default function Home({navigation}) {
     }
   }
 
+  async function carregaDadosPendentes() {
+    try {
+      let lista = await obtemTodasAtividades();
+      setAtividades(lista.filter(x => x.statusAtividade == "pendente"));
+      setRecarregaTela(false);
+    } catch (e) {
+      Alert.alert(e.toString());
+    }
+  }
+  async function carregaDadosConcluidos() {
+    try {
+      let lista = await obtemTodasAtividades();
+      setAtividades(lista.filter(x => x.statusAtividade == "concluído"));
+      setRecarregaTela(false);
+    } catch (e) {
+      Alert.alert(e.toString());
+    }
+  }
+
+  function editar(identificador) {
+    const atividade = atividades.find(atividade => atividade.id == identificador);
+    console.log('objeto a ser editado');
+    console.log(atividade);
+    if (atividade != undefined) {
+      setId(atividade.id);
+      setDescricao(atividade.descricao);
+      setTipoAtividade(atividade.tipoAtividade);
+      setLocalAtividade(atividade.localAtividade);
+      setDataEntrega(atividade.dataEntrega);
+      setHoraEntrega(atividade.horaEntrega);
+      setStatusAtividade(atividade.statusAtividade);
+     }
+
+    
+  }
+
+async  function SalvarEdicao(){
+
+    let obj = {
+      id: id,
+      descricao: descricao,
+      tipoAtividade: tipoAtividade,
+      localAtividade: localAtividade,
+      dataEntrega: dataEntrega,
+      horaEntrega: horaEntrega,
+      statusAtividade: statusAtividade
+    };
+    
+        let resposta = await alteraAtividade(obj);
+        if (resposta)
+          Alert.alert('Alterado com sucesso!');
+        else
+          Alert.alert('Falhou miseravelmente!');
+          dropdownRef.current.reset();
+          setRecarregaTela(true);
+  }
+
 
   return (
     <View style={styles.container}>
+      <Text style={styles.titulo}>Sistema de Cadastro de Atividades</Text>
 
-<View style={styles.areaBotoes}>
-                <TouchableOpacity style={styles.botao} onPress={() => DirecionaTela1() }>
-                    <Text style={styles.textoBotao}>Cadastrar Tipo Atividade</Text>
-                </TouchableOpacity>
+      <View style={styles.areaBotoes}>
+        <TouchableOpacity style={styles.botao} onPress={() => DirecionaTela1()}>
+          <Text style={styles.textoBotao}> Tipo de Atividades</Text>
+        </TouchableOpacity>
 
-                <TouchableOpacity style={styles.botao} onPress={() => DirecionaTela2() }>
-                    <Text style={styles.textoBotao}>Cadastrar Atividade</Text>
-                </TouchableOpacity>
+        <TouchableOpacity style={styles.botao} onPress={() => DirecionaTela2()}>
+          <Text style={styles.textoBotao}>Cadastrar Atividade</Text>
+        </TouchableOpacity>
+      </View>   
+
+
+      <View style={styles.areaEdicao}>
+        
+        <SelectDropdown
+          data={statusAtividadeData}
+          ref={dropdownRef}
+          onSelect={(selectedItem, index) => {
+            setStatusAtividade(selectedItem);
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+
+            return selectedItem
+          }}
+          rowTextForSelection={(item, index) => {
+
+            return item
+          }}
+        />
+        <TouchableOpacity style={styles.botaoSalvar} onPress={() => SalvarEdicao()}>
+          <Text style={styles.textoBotaoSalvar}>Salvar</Text>
+        </TouchableOpacity>
+
       </View>
 
-      <Text style={styles.tituloAgenda}>Atividades cadastradas FESA</Text>
-      <Text /><Text />   
-     
+      <Text style={styles.titulo}>Atividades cadastradas FESA</Text>
+      <View style={styles.areaBotoes}>
+        <TouchableOpacity style={styles.botaoAcao} onPress={() => carregaDadosPendentes()}>
+          <Text style={styles.textoBotao}>Pendentes</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.botaoAcao} onPress={() => carregaDadosConcluidos()}>
+          <Text style={styles.textoBotao}>Concluídas</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.botaoAcao} onPress={() => carregaDados()}>
+          <Text style={styles.textoBotao}>Todas</Text>
+        </TouchableOpacity>
+      </View>
 
       <ScrollView style={styles.listaContatos}>
         {
           atividades.map((atividade, index) => (
             <View style={styles.atividade} key={index.toString()}>
-
               <Text style={styles.listaNome}> {atividade.descricao}</Text>
-                            
+              <Text style={styles.listaNome}> {atividade.statusAtividade}</Text>
+              <View style={styles.dadosBotoesAcao}>
+
+                <TouchableOpacity onPress={() => editar(atividade.id)}>
+                  <Entypo name="edit" size={28} color="black" />
+                </TouchableOpacity>
+
+              </View>
             </View>
+
           ))
         }
 
@@ -94,7 +208,7 @@ export default function Home({navigation}) {
       <StatusBar style="auto" />
 
     </View>
-    
+
   );
 }
 

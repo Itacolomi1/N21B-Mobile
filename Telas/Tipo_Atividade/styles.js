@@ -10,9 +10,8 @@ const styles = StyleSheet.create({
     },
     tituloAgenda: {
         fontSize: 25,
-        color: '#FFF',
-        backgroundColor: 'blue',
-        width: '100%',
+        color: '#000',
+                width: '100%',
         textAlign: 'center'
     },
 
@@ -41,12 +40,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
+        margin:10,
     },
     areaBotoes: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
-        marginTop: 30,
+        marginTop: 10,
     },
     textoBotao: {
         color: '#FFF',
@@ -65,25 +65,27 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     contato: {
-        backgroundColor: '#ed8f1c',
-        flexDirection: 'row',
-        height: 80,
-        alignItems: 'center',
-        margin: 10,
-        borderRadius: 5,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
+        backgroundColor: '#87CEEB',
+    
+    flexDirection: 'row',
+    height: 50,
+    alignItems: 'center',
+    margin: 10,
+    borderRadius: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
     },
     listaNome: {
-        width: '50%',
+        width: '75%',
         fontSize: 18,
         paddingRight: 10,
+        marginLeft:20,
     },
 
     dadosListaTelefone: {
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     },
     dadosBotoesAcao: {
         width: '10%',
+        flexDirection:'row',
     },
     iconTelefone: {
         width: 20,
@@ -101,6 +104,11 @@ const styles = StyleSheet.create({
     listaTelefone: {
         color: "#FFF",
         fontSize: 18,
+    },
+    botaoVoltar: {        
+        left:10,
+        justifyContent: 'space-around',
+        width: '100%',      
     },
 
 

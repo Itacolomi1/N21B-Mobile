@@ -9,11 +9,16 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     tituloAgenda: {
-        fontSize: 25,
-        color: '#FFF',
-        backgroundColor: 'blue',
+        fontSize: 30,
+        color: '#000',
+     
         width: '100%',
         textAlign: 'center'
+    },
+    botaoVoltar: {        
+        left:10,
+        justifyContent: 'space-around',
+        width: '100%',      
     },
 
     caixaTexto: {
@@ -37,6 +42,23 @@ const styles = StyleSheet.create({
     botaoApagarTudo: {
         backgroundColor: 'red',
     },
+    cabecalho:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+
+    botaoAcao: {
+        width: '30%',
+        height: 40,
+        borderColor: "#191970",
+        borderWidth: 2,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#040d59',
+        margin:0,
+        textAlign:'center',
+    },
     areaDados: {
         flexDirection: 'column',
         justifyContent: 'space-around',
@@ -47,7 +69,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
-        marginTop: 30,
+        marginTop: 20,
     },
     textoBotao: {
         color: '#FFF',
@@ -63,14 +85,14 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         backgroundColor: '#FFF',
-        marginTop: 20,
+        marginTop: 10,
     },
     contato: {
-        backgroundColor: '#ed8f1c',
+        backgroundColor: '#87CEEB',
         flexDirection: 'row',
-        height: 80,
+        height: 50,
         alignItems: 'center',
-        margin: 10,
+        margin: 5,
         borderRadius: 5,
         shadowColor: "#000",
         shadowOffset: {
@@ -82,9 +104,10 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     listaNome: {
-        width: '50%',
+        width: '40%',
         fontSize: 18,
         paddingRight: 10,
+        marginLeft:10,
     },
 
     dadosListaTelefone: {
@@ -93,6 +116,7 @@ const styles = StyleSheet.create({
     },
     dadosBotoesAcao: {
         width: '10%',
+        flexDirection: 'row',
     },
     iconTelefone: {
         width: 20,
@@ -100,6 +124,7 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     listaTelefone: {
+        width: '35%',
         color: "#FFF",
         fontSize: 18,
     },
