@@ -46,7 +46,7 @@ export function obtemTodosTipoAtividade() {
                     for (let n = 0; n < registros.rows.length; n++) {
                         let obj = {
                             id: registros.rows.item(n).id,
-                            nome: registros.rows.item(n).descricao,                            
+                            descricao: registros.rows.item(n).descricao,                            
                         }
                         retorno.push(obj);
                     }

@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": 19000,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://qa-3t4.anonymous.n21b-mobile.exp.direct",
+  "packagerNgrokUrl": "https://packager.qa-3t4.anonymous.n21b-mobile.exp.direct",
+  "ngrokPid": 10656,
   "webpackServerPort": null
 }
