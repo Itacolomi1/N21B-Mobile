@@ -40,7 +40,7 @@ export default function Home({ navigation }) {
       await createTable();
     }
     if (recarregaTela) {
-      console.log("Recarregando dados...");
+     
       await carregaDadosPendentes();
     }
   }
@@ -91,8 +91,8 @@ export default function Home({ navigation }) {
   function editar(identificador) {
     setIsEdit(true);
     const atividade = atividades.find(atividade => atividade.id == identificador);
-    console.log('objeto a ser editado');
-    console.log(atividade);
+    
+    
     if (atividade != undefined) {
       setId(atividade.id);
       setDescricao(atividade.descricao);

@@ -38,31 +38,22 @@ export default function Atividade({ navigation }) {
   const dropdownTipoAtividadeRef = useRef({});
   const [listaTipoAtividades, setListaTipoAtividades] = useState([]);
 
-  // React.useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     console.log('fazer o método')
-  //     carregaTipoAtividade();
-  //   });
-
-  //   // Return the function to unsubscribe from the event so it gets removed on unmount
-  //   return unsubscribe;
-  // }, [navigation]);
 
   async function processamentoUseEffect() {
     if (!criarTabela) {
-      console.log("Verificando necessidade de criar tabelas...");
+      
       setCriarTabela(true);
       await createTable();
     }
     if (recarregaTela) {
-      console.log("Recarregando dados...");
+      
       await carregaDados();
     }
   }
 
   useEffect(
     () => {
-      console.log('executando useffect');
+     
       carregaTipoAtividade()
       processamentoUseEffect(); //necessário método pois aqui não pode utilizar await...
     }, [recarregaTela]);
@@ -134,8 +125,7 @@ export default function Atividade({ navigation }) {
       horaEntrega: horaEntrega,
       statusAtividade: statusAtividade
     };
-    console.log('objeto a ser salvo');
-    console.log(obj);
+
 
     try {
 
@@ -148,7 +138,7 @@ export default function Atividade({ navigation }) {
           Alert.alert('Falhou miseravelmente!');
       }
       else {
-        console.log('vamos alterar o contato');
+        
         let resposta = await alteraAtividade(obj);
         if (resposta)
           Alert.alert('Alterado com sucesso!');
@@ -156,7 +146,7 @@ export default function Atividade({ navigation }) {
           Alert.alert('Falhou miseravelmente!');
       }
 
-      console.log('aqui é para executar só depois de ter alterado / inserido o contato');
+      
       Keyboard.dismiss();
       limpaCampos();
       setRecarregaTela(true);
@@ -168,8 +158,8 @@ export default function Atividade({ navigation }) {
   async function carregaDados() {
     try {
       let contatos = await obtemTodasAtividades();
-      console.log('atividades carregas');
-      console.log(contatos);
+      
+      
       setAtividades(contatos);
       setRecarregaTela(false);
     } catch (e) {
@@ -203,8 +193,7 @@ export default function Atividade({ navigation }) {
     try {
       console.log('tentar pegar os tipos')
       let contatos = await obtemTodosTipoAtividade();
-      console.log('tiposAtividades');
-      console.log(contatos);
+    
       setListaTipoAtividades(contatos);
     } catch (e) {
       Alert.alert(e.toString());
@@ -248,8 +237,7 @@ export default function Atividade({ navigation }) {
 
   function editar(identificador) {
     const atividade = atividades.find(atividade => atividade.id == identificador);
-    console.log('objeto a ser editado');
-    console.log(atividade);
+ 
     if (atividade != undefined) {
       setId(atividade.id);
       setDescricao(atividade.descricao);
@@ -259,10 +247,10 @@ export default function Atividade({ navigation }) {
       setHoraEntrega(atividade.horaEntrega);
       setStatusAtividade(atividade.statusAtividade);
       //dropdownRef.    onSelect(atividade.statusAtividade,statusAtividadeData.indexOf(atividade.statusAtividade));
-      console.log(dropdownRef);
+ 
     }
 
-    console.log(atividade);
+  
   }
   async function efetivaRemoverAtividade(identificador) {
     try {
@@ -306,7 +294,7 @@ export default function Atividade({ navigation }) {
             ref={dropdownTipoAtividadeRef}
             onSelect={(selectedItem, index) => {
               setTipoAtividade(selectedItem.id);
-              console.log(selectedItem, index);
+              
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
               // text represented after item is selected
@@ -353,7 +341,7 @@ export default function Atividade({ navigation }) {
             ref={dropdownRef}
             onSelect={(selectedItem, index) => {
               setStatusAtividade(selectedItem);
-              console.log(selectedItem, index);
+              
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
               // text represented after item is selected
