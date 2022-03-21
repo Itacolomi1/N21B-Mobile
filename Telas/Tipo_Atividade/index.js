@@ -27,12 +27,12 @@ export default function TipoAtividade({ navigation }) {
 
   async function processamentoUseEffect() {
     if (!criarTabela) {
-      console.log("Verificando necessidade de criar tabelas...");
+      
       setCriarTabela(true);
       await createTable();
     }
     if (recarregaTela) {
-      console.log("Recarregando dados...");
+      
       await carregaDados();
     }
   }
@@ -40,7 +40,7 @@ export default function TipoAtividade({ navigation }) {
   function validaCampos() {
 
     if (descricao == undefined || descricao.length == 0) {
-      Alert.alert('Informe a descricao.');
+      Alert.alert('Informe a descrição.');
       return false;
     }
 
@@ -49,7 +49,7 @@ export default function TipoAtividade({ navigation }) {
 
   useEffect(
     () => {
-      console.log('executando useffect');
+      
       processamentoUseEffect(); //necessário método pois aqui não pode utilizar await...
     }, [recarregaTela]);
 
@@ -74,7 +74,7 @@ export default function TipoAtividade({ navigation }) {
       id: identificador,
       descricao: descricao,
     };
-    console.log('objeto a ser salvo');
+   
     console.log(obj);
 
     try {
@@ -83,12 +83,12 @@ export default function TipoAtividade({ navigation }) {
         let resposta = (await adicionaTipoAtividade(obj));
 
         if (resposta)
-          Alert.alert('adicionado com sucesso!');
+          Alert.alert('Adicionado com sucesso!');
         else
           Alert.alert('Falhou miseravelmente!');
       }
       else {
-        console.log('vamos alterar o contato');
+       
         let resposta = await alteraTipoAtividade(obj);
         if (resposta)
           Alert.alert('Alterado com sucesso!');
@@ -96,7 +96,7 @@ export default function TipoAtividade({ navigation }) {
           Alert.alert('Falhou miseravelmente!');
       }
 
-      console.log('aqui é para executar só depois de ter alterado / inserido o contato');
+      
       Keyboard.dismiss();
       limpaCampos();
       setRecarregaTela(true);
@@ -132,7 +132,7 @@ export default function TipoAtividade({ navigation }) {
 
 
   function apagarTudo() {
-    if (Alert.alert('Muita atenção!!!', 'Confirma a exclusão de todos os contatos?',
+    if (Alert.alert('Muita atenção!!!', 'Confirma a exclusão de todos os tipos de atividades?',
       [
         {
           text: 'Sim, confirmo!',
@@ -148,7 +148,7 @@ export default function TipoAtividade({ navigation }) {
   }
 
   function removerElemento(identificador) {
-    Alert.alert('Atenção', 'Confirma a remoção do contato?',
+    Alert.alert('Atenção', 'Confirma a remoção do tipo de atividade?',
       [
         {
           text: 'Sim',
@@ -167,14 +167,14 @@ export default function TipoAtividade({ navigation }) {
 
   function editar(identificador) {
     const tipoAtividade = tiposAtividade.find(tipoAtividade => tipoAtividade.id == identificador);
-    console.log('objeto a ser editado');
-    console.log(tipoAtividade);
+ 
+    
     if (tipoAtividade != undefined) {
       setId(tipoAtividade.id);
       setDescricao(tipoAtividade.descricao);
     }
 
-    console.log(tipoAtividade);
+   
   }
   async function efetivaRemoverTipoAtividade(identificador) {
     try {
@@ -182,7 +182,7 @@ export default function TipoAtividade({ navigation }) {
       Keyboard.dismiss();
       limpaCampos();
       setRecarregaTela(true);
-      Alert.alert('Contato apagado com sucesso!!!');
+      Alert.alert('Tipo de atividade apagado com sucesso!!!');
     } catch (e) {
       Alert.alert(e);
     }

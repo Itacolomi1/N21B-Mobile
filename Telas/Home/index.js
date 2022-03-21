@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import {
   Alert, Text, TextInput, TouchableOpacity,
-  View,SafeAreaView, Keyboard, ScrollView, Image
+  View, SafeAreaView, Keyboard, ScrollView, Image
 } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 import styles from './styles';
@@ -12,7 +12,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import {
   createTable,
   obtemTodasAtividades,
-  alteraAtividade,  
+  alteraAtividade,
 } from '../../services/atividade.service'
 
 export default function Home({ navigation }) {
@@ -24,20 +24,18 @@ export default function Home({ navigation }) {
   const [dataEntrega, setDataEntrega] = useState();
   const [horaEntrega, setHoraEntrega] = useState();
   const [statusAtividade, setStatusAtividade] = useState();
-
+  const [isEdit, setIsEdit] = useState(false);
 
   const [atividades, setAtividades] = useState([]);
   const [recarregaTela, setRecarregaTela] = useState(true);
   const [criarTabela, setCriarTabela] = useState(false);
   const statusAtividadeData = ["pendente", "concluído"];
   const dropdownRef = useRef({});
-  // const [shouldShow, setShouldShow] = useState(true);
 
-  // const [edit, setEdit] = useState(false);
 
   async function processamentoUseEffect() {
     if (!criarTabela) {
-      console.log("Verificando necessidade de criar tabelas...");
+      
       setCriarTabela(true);
       await createTable();
     }
@@ -54,14 +52,11 @@ export default function Home({ navigation }) {
     navigation.navigate("Atividade");
   }
 
-  function Filtro(condicao) {
-    setAtividades(atividades.filter(x => x.statusAtividade == condicao))
-  }
 
   useEffect(
     () => {
-      console.log('executando useffect');
-      processamentoUseEffect(); 
+      setIsEdit(false);
+      processamentoUseEffect();
     }, [recarregaTela]);
 
   async function carregaDados() {
@@ -94,6 +89,7 @@ export default function Home({ navigation }) {
   }
 
   function editar(identificador) {
+    setIsEdit(true);
     const atividade = atividades.find(atividade => atividade.id == identificador);
     console.log('objeto a ser editado');
     console.log(atividade);
@@ -105,13 +101,14 @@ export default function Home({ navigation }) {
       setDataEntrega(atividade.dataEntrega);
       setHoraEntrega(atividade.horaEntrega);
       setStatusAtividade(atividade.statusAtividade);
-     }
+    }
 
-    
+
   }
 
-async  function SalvarEdicao(){
+  async function SalvarEdicao() {
 
+    setIsEdit(false);
     let obj = {
       id: id,
       descricao: descricao,
@@ -121,14 +118,14 @@ async  function SalvarEdicao(){
       horaEntrega: horaEntrega,
       statusAtividade: statusAtividade
     };
-    
-        let resposta = await alteraAtividade(obj);
-        if (resposta)
-          Alert.alert('Alterado com sucesso!');
-        else
-          Alert.alert('Falhou miseravelmente!');
-          dropdownRef.current.reset();
-          setRecarregaTela(true);
+
+    let resposta = await alteraAtividade(obj);
+    if (resposta)
+      Alert.alert('Alterado com sucesso!');
+    else
+      Alert.alert('Falhou miseravelmente!');
+    //dropdownRef.current.reset();
+    setRecarregaTela(true);
   }
 
 
@@ -144,32 +141,34 @@ async  function SalvarEdicao(){
         <TouchableOpacity style={styles.botao} onPress={() => DirecionaTela2()}>
           <Text style={styles.textoBotao}>Cadastrar Atividade</Text>
         </TouchableOpacity>
-      </View>   
-
-
-      <View style={styles.areaEdicao}>
-        
-        <SelectDropdown
-          data={statusAtividadeData}
-          ref={dropdownRef}
-          onSelect={(selectedItem, index) => {
-            setStatusAtividade(selectedItem);
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-
-            return selectedItem
-          }}
-          rowTextForSelection={(item, index) => {
-
-            return item
-          }}
-        />
-        <TouchableOpacity style={styles.botaoSalvar} onPress={() => SalvarEdicao()}>
-          <Text style={styles.textoBotaoSalvar}>Salvar</Text>
-        </TouchableOpacity>
-
       </View>
+
+
+      { isEdit &&
+        <View style={styles.areaEdicao}>
+
+          <SelectDropdown
+            data={statusAtividadeData}
+            ref={dropdownRef}
+            onSelect={(selectedItem, index) => {
+              setStatusAtividade(selectedItem);
+              console.log(selectedItem, index);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+
+              return selectedItem
+            }}
+            rowTextForSelection={(item, index) => {
+
+              return item
+            }}
+          />
+          <TouchableOpacity style={styles.botaoSalvar} onPress={() => SalvarEdicao()}>
+            <Text style={styles.textoBotaoSalvar}>Salvar</Text>
+          </TouchableOpacity>
+
+        </View>
+      }
 
       <Text style={styles.titulo}>Atividades cadastradas FESA</Text>
       <View style={styles.areaBotoes}>

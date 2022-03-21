@@ -104,6 +104,7 @@ areaEdicao: {
     justifyContent: 'space-around',
     width: '80%',
     marginTop: 5,
+   
 },
 
 });

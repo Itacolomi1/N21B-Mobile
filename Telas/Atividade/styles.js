@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     tituloAgenda: {
         fontSize: 30,
         color: '#000',
-     
+     marginTop:0,
         width: '100%',
         textAlign: 'center'
     },
